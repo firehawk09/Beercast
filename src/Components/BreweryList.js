@@ -7,7 +7,7 @@ const BreweryList = (props) => {
     <ul className="collection">
       {props.breweries.map((brewery, index) => (
         <BreweryListItem brewery={brewery} key={brewery.id} />
-    ))}
+      ))}
     </ul>
   );
 };

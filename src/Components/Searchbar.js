@@ -6,18 +6,6 @@ export default class SearchBar extends Component {
 
 		this.state = {term: ''};
 	}
-	
-	componentWillMount() {
-
-    navigator.geolocation.getCurrentPosition(function(position) {
-      console.log(position.coords.latitude, position.coords.longitude);
-      // let geocoords;
-      // geocoords.lat = position.coords.latitude;
-      // geocoords.lng = position.coords.longitude;
-      // this.setState({geocoords});
-      // console.log(this.state.geocoords);
-		});
-	}
 
 	render() {
 		return(

@@ -9,21 +9,23 @@ export default class App extends Component {
 
     this.state = {
       breweries: [],
-      geocoords: {
-        lat: '',
-        lng: ''
+      geoCoords: {
+        // lat: 30.1044506,
+        // lng: -95.2364276
+        lat: 0,
+        lng: 0
       },
-      term: 'houston'
+      term: 'porter'
     };
 
-    navigator.geolocation.getCurrentPosition(function(position) {
-      console.log(position.coords.latitude, position.coords.longitude);
-      let geocoords;
-      geocoords.lat = position.coords.latitude;
-      geocoords.lng = position.coords.longitude;
-      this.setState({geocoords});
-      console.log(this.state.geocoords);
-    });
+    // navigator.geolocation.getCurrentPosition(function(position) {
+    //   console.log(position.coords.latitude, position.coords.longitude);
+    //   let geoCoords;
+    //   geoCoords.lat = position.coords.latitude;
+    //   geoCoords.lng = position.coords.longitude;
+    //   this.setState({geoCoords});
+    //   console.log(this.state.geoCoords);
+    // });
 
     let geoSearchURL = [
 			'https://pgo0ng10el.execute-api.us-east-1.amazonaws.com/dev/google/search',
@@ -31,7 +33,7 @@ export default class App extends Component {
 			this.state.term
 		].join('');
 
-		// console.log(geoSearchURL);
+		console.log(geoSearchURL);
 
     fetch(geoSearchURL)
       .then((results) => {
@@ -42,24 +44,26 @@ export default class App extends Component {
           `Failed to fetch ${results.url}: ${results.status} ${results.statusText}`));
       })
       .then((v) => {
-        let geocoords = {}
-        geocoords.lat = v.results[0].geometry.location.lat;
-        geocoords.lng = v.results[0].geometry.location.lng;
-        this.setState({geocoords});
-        
-        // console.log(this.state.geocoords);
+        let coordsLocation = v.results[0].geometry.location;
+        console.log(coordsLocation);
+        this.setState({geoCoords: coordsLocation});
+        console.log(this.state.geoCoords);
 
         let brewSearchURL = [
           'https://pgo0ng10el.execute-api.us-east-1.amazonaws.com/dev/brewerydb/search',
           '?lat=',
-          this.state.geocoords.lat,
+          this.state.geoCoords.lat,
           '&lng=',
-          this.state.geocoords.lng,
-          '&radius=40 '
+          this.state.geoCoords.lng,
+          '&radius=60'
         ].join('');
+
+        console.log(brewSearchURL);
 
         fetch(brewSearchURL)
           .then((results) => {
+            console.log('Fetching breweries');
+            
             if (results.ok) {
               return results.json();
             }
@@ -67,12 +71,10 @@ export default class App extends Component {
               `Failed to fetch ${results.url}: ${results.status} ${results.statusText}`));
           })
           .then((v) => {
-            // console.log(v);
+            console.log(v);
             this.setState({breweries: v.data});
             this.setState({totalResults: v.totalResults});
-            // console.log(this.state.breweries);
-            console.log(this.state);
-            
+            console.log(this.state.breweries);
           })
       });
   }

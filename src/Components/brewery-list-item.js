@@ -1,35 +1,32 @@
 import React from 'react';
 
-const BreweryList = (props) => {
-  console.log(props);
-  
-  
+const BreweryList = (brewery) => {
   
   return (
     <li className="collection-item avatar">
-      { props.brewery.brewery.images ?
-        <img src={props.brewery.brewery.images.icon} alt="" className="circle" />
+      { brewery.brewery.brewery.images ?
+        <img src={brewery.brewery.brewery.images.icon} alt="" className="circle" />
         :
         <i className="material-icons circle">folder</i>
       }
-      <span className="title">{props.brewery.brewery.name}</span>
+      <span className="title">{brewery.brewery.brewery.name}</span>
       <div>
-        { props.brewery.phone ?
-          ( props.brewery.phone.length >= 10 ?
-            <div><a href="tel:{props.brewery.phone}">{props.brewery.phone}</a></div>
+        { brewery.phone ?
+          ( brewery.phone.length >= 10 ?
+            <div><a href="tel:{brewery.phone}">{brewery.phone}</a></div>
             :
             <div>No Phone listed</div>
           )
           :
           <div>No Phone listed</div>
         }
-        { props.brewery.streetAddress ?
-          <div>{props.brewery.streetAddress}</div>
+        { brewery.streetAddress ?
+          <div>{brewery.streetAddress}</div>
           :
           <div>No Street Address Listed</div>
         }
-        { props.brewery.brewery.website ?
-          <a href={props.brewery.brewery.website} className="">{props.brewery.brewery.website}</a>
+        { brewery.brewery.brewery.website ?
+          <a href={brewery.brewery.brewery.website} className="">{brewery.brewery.brewery.website}</a>
           :
           <br />
         }
