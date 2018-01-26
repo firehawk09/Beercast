@@ -15,7 +15,7 @@ export default class App extends Component {
         lat: 0,
         lng: 0
       },
-      term: 'porter'
+      term: 'Houston'
     };
 
     // navigator.geolocation.getCurrentPosition(function(position) {

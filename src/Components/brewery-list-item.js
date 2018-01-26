@@ -1,32 +1,34 @@
 import React from 'react';
 
-const BreweryList = (brewery) => {
+const BreweryList = (props) => {
+  // console.log(props.brewery.brewery);
   
   return (
     <li className="collection-item avatar">
-      { brewery.brewery.brewery.images ?
-        <img src={brewery.brewery.brewery.images.icon} alt="" className="circle" />
+      {/* { props.brewery.brewery.images.length === 0 ?
+        <img src={props.brewery.brewery.images.icon} alt="" className="circle" />
         :
         <i className="material-icons circle">folder</i>
-      }
-      <span className="title">{brewery.brewery.brewery.name}</span>
+      } */}
+      <i className="material-icons circle">folder</i>
+      <span className="title">{props.brewery.brewery.name}</span>
       <div>
-        { brewery.phone ?
-          ( brewery.phone.length >= 10 ?
-            <div><a href="tel:{brewery.phone}">{brewery.phone}</a></div>
+        { props.brewery.phone ?
+          ( props.brewery.phone.length >= 10 ?
+            <div><a href="tel:{brewery.phone}">{props.brewery.phone}</a></div>
             :
             <div>No Phone listed</div>
           )
           :
           <div>No Phone listed</div>
         }
-        { brewery.streetAddress ?
-          <div>{brewery.streetAddress}</div>
+        { props.brewery.streetAddress ?
+          <div>{props.brewery.streetAddress}</div>
           :
           <div>No Street Address Listed</div>
         }
-        { brewery.brewery.brewery.website ?
-          <a href={brewery.brewery.brewery.website} className="">{brewery.brewery.brewery.website}</a>
+        { props.brewery.brewery.website ?
+          <a href={props.brewery.brewery.website} className="">{props.brewery.brewery.website}</a>
           :
           <br />
         }
