@@ -9,7 +9,6 @@ export default class Header extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    e.stopPropagation();
     console.log(e);
     
     this.props.onSearch();
@@ -41,12 +40,11 @@ export default class Header extends Component {
             </ul>
           </div>
           <div className="nav-content">
-            <form>
+            <form onSubmit={this.handleSubmit}>
               <div className="input-field">
                 <input id="nav-search"
                   type="search"
                   value={this.props.term}
-                  onSubmit={this.handleSubmit}
                   onChange={this.handleChange}  />
                 <label className="label-icon" htmlFor="search"><i className="material-icons">search</i></label>
                 <i className="material-icons">close</i>

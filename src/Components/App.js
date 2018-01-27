@@ -30,6 +30,8 @@ export default class App extends Component {
   }
   
   brewFetch = () => {
+    console.log(this.state.latitude);
+    console.log(this.state.longitude);
     let brewSearchURL = [
       'https://pgo0ng10el.execute-api.us-east-1.amazonaws.com/dev/brewerydb/search',
       '?lat=',
@@ -61,7 +63,8 @@ export default class App extends Component {
     ].join('');
 
     console.log(geoSearchURL);
-    
+    console.log(this.state.latitude);
+    console.log(this.state.longitude);
 
     fetch(geoSearchURL)
     .then((results) => {
@@ -72,15 +75,15 @@ export default class App extends Component {
         `Failed to fetch ${results.url}: ${results.status} ${results.statusText}`));
     })
     .then((v) => {
-      let coordsLocation = v.results[0].geometry.location;
-      this.setState({geoCoords: coordsLocation});
+      this.setState({latitude: v.results[0].geometry.location.lat});
+      this.setState({longitude: v.results[0].geometry.location.lng});
       this.brewFetch();
+      console.log('brewFetch called');
     })
   }
 
   getCurrentPosition = () => {
     navigator.geolocation.getCurrentPosition((position) => {
-      // console.log(position.coords.latitude, position.coords.longitude);
       this.setState({latitude: position.coords.latitude});
       this.setState({longitude: position.coords.longitude});
       this.brewFetch();
