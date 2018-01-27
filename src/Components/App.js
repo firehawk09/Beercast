@@ -10,32 +10,36 @@ export default class App extends Component {
     this.state = {
       breweries: [],
       geoCoords: {
-        // lat: 30.1044506,
-        // lng: -95.2364276
         lat: 0,
         lng: 0
       },
-      term: 'Houston'
+      latitude: 0,
+      longitude: 0,
+      defaultTerm: 'Houston',
+      term: ''
     };
 
-    // navigator.geolocation.getCurrentPosition(function(position) {
-    //   console.log(position.coords.latitude, position.coords.longitude);
-    //   let geoCoords;
-    //   geoCoords.lat = position.coords.latitude;
-    //   geoCoords.lng = position.coords.longitude;
-    //   this.setState({geoCoords});
-    //   console.log(this.state.geoCoords);
-    // });
+    // this.brewFetch = this.brewFetch.bind(this);
+    // this.geoFetch = this.geoFetch.bind(this);
+    // this.handleTermChange = this.handleTermChange.bind(this);
+    // this.handleTermSearch = this.handleTermSearch.bind(this);
 
-    let geoSearchURL = [
-			'https://pgo0ng10el.execute-api.us-east-1.amazonaws.com/dev/google/search',
-			'?address=',
-			this.state.term
-		].join('');
+    // this.geoFetch();
 
-		console.log(geoSearchURL);
+    this.getCurrentPosition();
+  }
+  
+  brewFetch = () => {
+    let brewSearchURL = [
+      'https://pgo0ng10el.execute-api.us-east-1.amazonaws.com/dev/brewerydb/search',
+      '?lat=',
+      this.state.latitude,
+      '&lng=',
+      this.state.longitude,
+      '&radius=60'
+    ].join('');
 
-    fetch(geoSearchURL)
+    fetch(brewSearchURL)
       .then((results) => {
         if (results.ok) {
           return results.json();
@@ -44,46 +48,62 @@ export default class App extends Component {
           `Failed to fetch ${results.url}: ${results.status} ${results.statusText}`));
       })
       .then((v) => {
-        let coordsLocation = v.results[0].geometry.location;
-        console.log(coordsLocation);
-        this.setState({geoCoords: coordsLocation});
-        console.log(this.state.geoCoords);
+        this.setState({breweries: v.data});
+        this.setState({totalResults: v.totalResults});
+      })
+  }
+  
+  geoFetch = () => {
+    let geoSearchURL = [
+      'https://pgo0ng10el.execute-api.us-east-1.amazonaws.com/dev/google/search',
+      '?address=',
+      this.state.term
+    ].join('');
 
-        let brewSearchURL = [
-          'https://pgo0ng10el.execute-api.us-east-1.amazonaws.com/dev/brewerydb/search',
-          '?lat=',
-          this.state.geoCoords.lat,
-          '&lng=',
-          this.state.geoCoords.lng,
-          '&radius=60'
-        ].join('');
+    console.log(geoSearchURL);
+    
 
-        console.log(brewSearchURL);
+    fetch(geoSearchURL)
+    .then((results) => {
+      if (results.ok) {
+        return results.json();
+      }
+      return Promise.reject(new Error(
+        `Failed to fetch ${results.url}: ${results.status} ${results.statusText}`));
+    })
+    .then((v) => {
+      let coordsLocation = v.results[0].geometry.location;
+      this.setState({geoCoords: coordsLocation});
+      this.brewFetch();
+    })
+  }
 
-        fetch(brewSearchURL)
-          .then((results) => {
-            console.log('Fetching breweries');
-            
-            if (results.ok) {
-              return results.json();
-            }
-            return Promise.reject(new Error(
-              `Failed to fetch ${results.url}: ${results.status} ${results.statusText}`));
-          })
-          .then((v) => {
-            console.log(v);
-            this.setState({breweries: v.data});
-            this.setState({totalResults: v.totalResults});
-            console.log(this.state.breweries);
-          })
-      });
+  getCurrentPosition = () => {
+    navigator.geolocation.getCurrentPosition((position) => {
+      // console.log(position.coords.latitude, position.coords.longitude);
+      this.setState({latitude: position.coords.latitude});
+      this.setState({longitude: position.coords.longitude});
+      this.brewFetch();
+    });
+  };
+
+  handleTermChange = (e) => {
+    this.setState({term: e});
+  }
+
+  handleTermSearch = () => {
+    this.geoFetch();
   }
 
   render() {
     return (
       <div>
-        <Header />
-        <Main breweries={this.state.breweries} />
+        <Header 
+          term={this.state.term}
+          onTermChange={this.handleTermChange}
+          onSearch={this.handleTermSearch} />
+        <Main 
+          breweries={this.state.breweries} />
         <Footer />
       </div>
     );
