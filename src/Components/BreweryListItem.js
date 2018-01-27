@@ -1,16 +1,16 @@
 import React from 'react';
 
 const BreweryList = (props) => {
-  // console.log(props.brewery.brewery);
+  console.log(props.brewery.brewery);
   
   return (
     <li className="collection-item avatar">
-      {/* { props.brewery.brewery.images.length === 0 ?
-        <img src={props.brewery.brewery.images.icon} alt="" className="circle" />
+      { props.brewery.brewery.images ?
+        <img src={props.brewery.brewery.images.icon} alt="icon" className="circle" />
         :
         <i className="material-icons circle">folder</i>
-      } */}
-      <i className="material-icons circle">folder</i>
+      }
+      {/* <i className="material-icons circle">folder</i> */}
       <span className="title">{props.brewery.brewery.name}</span>
       <div>
         { props.brewery.phone ?
@@ -35,16 +35,6 @@ const BreweryList = (props) => {
       </div>
       <a href="#!" className="secondary-content"><i className="material-icons">send</i></a>
     </li>
-    // <li className="collection-item avatar">
-    //   <i className="material-icons circle">folder</i>
-    //   <span className="title">Title</span>
-    //   <p>
-    //     First Line
-    //     <br />
-    //     Second Line
-    //   </p>
-    //   <a href="#!" className="secondary-content"><i className="material-icons">send</i></a>
-    // </li>
   );
 };
 

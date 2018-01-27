@@ -19,13 +19,6 @@ export default class App extends Component {
       term: ''
     };
 
-    // this.brewFetch = this.brewFetch.bind(this);
-    // this.geoFetch = this.geoFetch.bind(this);
-    // this.handleTermChange = this.handleTermChange.bind(this);
-    // this.handleTermSearch = this.handleTermSearch.bind(this);
-
-    // this.geoFetch();
-
     this.getCurrentPosition();
   }
   
@@ -83,11 +76,22 @@ export default class App extends Component {
   }
 
   getCurrentPosition = () => {
-    navigator.geolocation.getCurrentPosition((position) => {
+    let options = {
+      enableHighAccuracy: true,
+      timeout: 25000
+    };
+
+    let success = (position) => {
       this.setState({latitude: position.coords.latitude});
       this.setState({longitude: position.coords.longitude});
       this.brewFetch();
-    });
+    }
+
+    let error = (err) => {
+      this.setState({hasGeoError: true});
+      
+    }
+    navigator.geolocation.getCurrentPosition(success, error, options);
   };
 
   handleTermChange = (e) => {
@@ -106,7 +110,8 @@ export default class App extends Component {
           onTermChange={this.handleTermChange}
           onSearch={this.handleTermSearch} />
         <Main 
-          breweries={this.state.breweries} />
+          breweries={this.state.breweries}
+          hasGeoError={this.state.hasGeoError} />
         <Footer />
       </div>
     );

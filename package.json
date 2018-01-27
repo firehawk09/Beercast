@@ -13,7 +13,7 @@
   "scripts": {
     "sass": "sass --watch src/styles/scss:src/styles/css",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",
+    "deploy": "firebase deploy && gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",

@@ -2,7 +2,8 @@ import React from 'react';
 
 const BreweryDetail = ({brewery}) => {
   if (!brewery) {
-    return <div>Loading Brewery Details...</div>;
+    M.toast({html: 'Retrieving Brewery Details'})
+    return
   }
 
   // const breweryId = brewery.id.breweryId;

@@ -1,5 +1,5 @@
 import React from 'react';
-import BreweryListItem from './brewery-list-item';
+import BreweryListItem from './BreweryListItem';
 
 const BreweryList = (props) => {
   if (props.breweries.length >= 1) {
@@ -12,8 +12,48 @@ const BreweryList = (props) => {
     )
   } else {
     return (
-      <div className="progress">
-        <div className="indeterminate"></div>
+      <div className="center-align">
+        <div className="preloader-wrapper big active">
+          <div className="spinner-layer spinner-blue">
+            <div className="circle-clipper left">
+              <div className="circle"></div>
+            </div><div className="gap-patch">
+              <div className="circle"></div>
+            </div><div className="circle-clipper right">
+              <div className="circle"></div>
+            </div>
+          </div>
+
+          <div className="spinner-layer spinner-red">
+            <div className="circle-clipper left">
+              <div className="circle"></div>
+            </div><div className="gap-patch">
+              <div className="circle"></div>
+            </div><div className="circle-clipper right">
+              <div className="circle"></div>
+            </div>
+          </div>
+
+          <div className="spinner-layer spinner-yellow">
+            <div className="circle-clipper left">
+              <div className="circle"></div>
+            </div><div className="gap-patch">
+              <div className="circle"></div>
+            </div><div className="circle-clipper right">
+              <div className="circle"></div>
+            </div>
+          </div>
+
+          <div className="spinner-layer spinner-green">
+            <div className="circle-clipper left">
+              <div className="circle"></div>
+            </div><div className="gap-patch">
+              <div className="circle"></div>
+            </div><div className="circle-clipper right">
+              <div className="circle"></div>
+            </div>
+          </div>
+        </div>
       </div>
     )
   }
