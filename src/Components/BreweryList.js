@@ -2,17 +2,22 @@ import React from 'react';
 import BreweryListItem from './BreweryListItem';
 
 const BreweryList = (props) => {
+  // console.log(props);
+  
   if (props.breweries.length >= 1) {
     return (
       <ul className="collection">
         {props.breweries.map((brewery, index) => (
-          <BreweryListItem brewery={brewery} key={brewery.id} />
+          <BreweryListItem
+            brewery={brewery}
+            key={brewery.id} 
+            showModal={props.showModal} />
         ))}
       </ul>
     )
   } else {
     return (
-      <div className="center-align">
+      <div className="center-align center-preloader">
         <div className="preloader-wrapper big active">
           <div className="spinner-layer spinner-blue">
             <div className="circle-clipper left">

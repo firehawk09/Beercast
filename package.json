@@ -2,7 +2,7 @@
   "name": "beercast",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://firehawk09.github.io/Beercast",
+  "homepage": "https://beercastapp.com",
   "dependencies": {
     "bootstrap": "^3.3.7",
     "gh-pages": "^1.1.0",

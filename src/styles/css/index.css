@@ -6389,7 +6389,7 @@ input[type=range].focused:focus:not(.active)::-ms-thumb {
     bottom: auto;
     text-align: center;
     margin-top: 1.2rem; } }
-body {
+#App {
   display: flex;
   min-height: 100vh;
   flex-direction: column; }
@@ -6401,5 +6401,15 @@ main {
   #nav-search {
     width: 70%;
     margin: 0 auto; } }
+
+.center-preloader {
+  margin: 0px;
+  padding: 0px;
+  float: left;
+  width: 100%;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%) translateX(-50%);
+  left: 50%; }
 
 /*# sourceMappingURL=index.css.map */

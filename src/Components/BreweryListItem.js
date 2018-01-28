@@ -1,41 +1,50 @@
-import React from 'react';
+import React, {Component} from 'react';
 
-const BreweryList = (props) => {
-  console.log(props.brewery.brewery);
+export default class BreweryListItem extends Component {
+  // constructor(props) {
+  //   super(props);
+  //   console.log(props);
+  // }
+
+  showModal = (boolean, breweryID) => {
+    this.props.showModal(boolean, breweryID);
+    
+    return
+  }
   
-  return (
-    <li className="collection-item avatar">
-      { props.brewery.brewery.images ?
-        <img src={props.brewery.brewery.images.icon} alt="icon" className="circle" />
-        :
-        <i className="material-icons circle">folder</i>
-      }
-      {/* <i className="material-icons circle">folder</i> */}
-      <span className="title">{props.brewery.brewery.name}</span>
-      <div>
-        { props.brewery.phone ?
-          ( props.brewery.phone.length >= 10 ?
-            <div><a href="tel:{brewery.phone}">{props.brewery.phone}</a></div>
+  render() {
+    return (
+      <li className="collection-item avatar">
+        { this.props.brewery.brewery.images ?
+          <img src={this.props.brewery.brewery.images.icon} alt="icon" className="circle" />
+          :
+          <i className="material-icons circle">folder</i>
+        }
+        {/* <i className="material-icons circle">folder</i> */}
+        <span className="title">{this.props.brewery.brewery.name}</span>
+        <div>
+          { this.props.brewery.phone ?
+            ( this.props.brewery.phone.length >= 10 ?
+              <div><a href="tel:{brewery.phone}">{this.props.brewery.phone}</a></div>
+              :
+              <div>No Phone listed</div>
+            )
             :
             <div>No Phone listed</div>
-          )
-          :
-          <div>No Phone listed</div>
-        }
-        { props.brewery.streetAddress ?
-          <div>{props.brewery.streetAddress}</div>
-          :
-          <div>No Street Address Listed</div>
-        }
-        { props.brewery.brewery.website ?
-          <a href={props.brewery.brewery.website} className="">{props.brewery.brewery.website}</a>
-          :
-          <br />
-        }
-      </div>
-      <a href="#!" className="secondary-content"><i className="material-icons">send</i></a>
-    </li>
-  );
+          }
+          { this.props.brewery.streetAddress ?
+            <div>{this.props.brewery.streetAddress}</div>
+            :
+            <div>No Street Address Listed</div>
+          }
+          { this.props.brewery.brewery.website ?
+            <a href={this.props.brewery.brewery.website} className="">{this.props.brewery.brewery.website}</a>
+            :
+            <br />
+          }
+        </div>
+        <a href="#!" onClick={() => this.showModal(true, this.props.brewery.breweryId)} className="secondary-content"><i className="material-icons">send</i></a>
+      </li>
+    )
+  }
 };
-
-export default BreweryList;

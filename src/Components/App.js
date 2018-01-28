@@ -9,13 +9,10 @@ export default class App extends Component {
 
     this.state = {
       breweries: [],
-      geoCoords: {
-        lat: 0,
-        lng: 0
-      },
+      hasGeoError: false,
       latitude: 0,
       longitude: 0,
-      defaultTerm: 'Houston',
+      showModal: false,
       term: ''
     };
 
@@ -23,8 +20,6 @@ export default class App extends Component {
   }
   
   brewFetch = () => {
-    console.log(this.state.latitude);
-    console.log(this.state.longitude);
     let brewSearchURL = [
       'https://pgo0ng10el.execute-api.us-east-1.amazonaws.com/dev/brewerydb/search',
       '?lat=',
@@ -75,10 +70,38 @@ export default class App extends Component {
     })
   }
 
+  brewDetailFetch = (bool,breweryID) => {
+    console.log(breweryID);
+    console.log(this.state);
+
+    let detailURL = [
+      'https://pgo0ng10el.execute-api.us-east-1.amazonaws.com/dev/brewerydb/details',
+      '?id=',
+      breweryID
+    ].join('');
+    
+    fetch(detailURL)
+      .then((results) => {
+        if (results.ok) {
+          return results.json();
+        }
+        return Promise.reject(new Error(
+          `Failed to fetch ${results.url}: ${results.status} ${results.statusText}`));
+      })
+      .then((v) => {
+        this.setState({brewery: v.data});
+        console.log(this.state);
+        
+      })
+    
+    return
+    // this.setState({showModal: bool})
+  }
+
   getCurrentPosition = () => {
     let options = {
       enableHighAccuracy: true,
-      timeout: 25000
+      timeout: 6000
     };
 
     let success = (position) => {
@@ -104,13 +127,14 @@ export default class App extends Component {
 
   render() {
     return (
-      <div>
+      <div id="App">
         <Header 
           term={this.state.term}
           onTermChange={this.handleTermChange}
           onSearch={this.handleTermSearch} />
         <Main 
           breweries={this.state.breweries}
+          showModal={this.brewDetailFetch}
           hasGeoError={this.state.hasGeoError} />
         <Footer />
       </div>
