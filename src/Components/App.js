@@ -9,11 +9,15 @@ export default class App extends Component {
 
     this.state = {
       breweries: [],
+      brewery: {},
+      breweryWeather: {},
       hasGeoError: false,
       latitude: 0,
       longitude: 0,
-      showModal: false,
-      term: ''
+      modalOpen: false,
+      term: '',
+      weatherLat: 0,
+      weatherlng: 0
     };
 
     this.getCurrentPosition();
@@ -70,14 +74,43 @@ export default class App extends Component {
     })
   }
 
-  brewDetailFetch = (bool,breweryID) => {
-    console.log(breweryID);
-    console.log(this.state);
+  weatherFetch = (lat, lng) => {
+    let weatherURL = [
+      'https://pgo0ng10el.execute-api.us-east-1.amazonaws.com/dev/forecast',
+      '?lat=',
+      lat,
+      '&lng=',
+      lng
+    ].join('');
+
+    // console.log(weatherURL);
+    // console.log(this.state);
+    
+    fetch(weatherURL)
+      .then((results) => {
+        if (results.ok) {
+          return results.json();
+        }
+        return Promise.reject(new Error(
+          `Failed to fetch ${results.url}: ${results.status} ${results.statusText}`));
+      })
+      .then((v) => {
+        // console.log(v);
+        this.setState({breweryWeather: v});
+        // console.log(this.state);
+      })
+  }
+
+  brewDetailFetch = (ID, lat, lng) => {
+    this.showModal(true);
+    // this.setState({weatherLat: lat});
+    // this.setState({weatherlng: lng});
+    this.weatherFetch(lat, lng);
 
     let detailURL = [
       'https://pgo0ng10el.execute-api.us-east-1.amazonaws.com/dev/brewerydb/details',
       '?id=',
-      breweryID
+      ID
     ].join('');
     
     fetch(detailURL)
@@ -90,12 +123,15 @@ export default class App extends Component {
       })
       .then((v) => {
         this.setState({brewery: v.data});
-        console.log(this.state);
-        
       })
-    
-    return
-    // this.setState({showModal: bool})
+  }
+
+  showModal = (bool) => {
+    // if (this.state.modalOpen) {
+    //   this.brewDetailFetch(); 
+    // }
+
+    this.setState({modalOpen: bool});
   }
 
   getCurrentPosition = () => {
@@ -132,10 +168,14 @@ export default class App extends Component {
           term={this.state.term}
           onTermChange={this.handleTermChange}
           onSearch={this.handleTermSearch} />
-        <Main 
+        <Main
+          brewDetailFetch={this.brewDetailFetch}
           breweries={this.state.breweries}
-          showModal={this.brewDetailFetch}
-          hasGeoError={this.state.hasGeoError} />
+          brewery={this.state.brewery}
+          breweryWeather={this.state.breweryWeather}
+          hasGeoError={this.state.hasGeoError}
+          modalOpen={this.state.modalOpen}
+          showModal={this.showModal} />
         <Footer />
       </div>
     );

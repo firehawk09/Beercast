@@ -5,12 +5,6 @@ export default class BreweryListItem extends Component {
   //   super(props);
   //   console.log(props);
   // }
-
-  showModal = (boolean, breweryID) => {
-    this.props.showModal(boolean, breweryID);
-    
-    return
-  }
   
   render() {
     return (
@@ -43,7 +37,7 @@ export default class BreweryListItem extends Component {
             <br />
           }
         </div>
-        <a href="#!" onClick={() => this.showModal(true, this.props.brewery.breweryId)} className="secondary-content"><i className="material-icons">send</i></a>
+        <a href="#!" onClick={() => this.props.brewDetailFetch(this.props.brewery.breweryId, this.props.brewery.latitude, this.props.brewery.longitude)} className="secondary-content"><i className="material-icons">send</i></a>
       </li>
     )
   }

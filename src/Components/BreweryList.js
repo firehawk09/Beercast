@@ -9,9 +9,9 @@ const BreweryList = (props) => {
       <ul className="collection">
         {props.breweries.map((brewery, index) => (
           <BreweryListItem
+            brewDetailFetch={props.brewDetailFetch}
             brewery={brewery}
-            key={brewery.id} 
-            showModal={props.showModal} />
+            key={brewery.id} />
         ))}
       </ul>
     )

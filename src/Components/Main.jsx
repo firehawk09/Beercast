@@ -32,10 +32,14 @@ export default class Main extends Component {
     return(
       <main>
         <div className="container">
-          <BreweryDetail />
+          <BreweryDetail
+            brewery={this.props.brewery}
+            modalOpen={this.props.modalOpen}
+            showModal={this.props.showModal}
+            breweryWeather={this.props.breweryWeather} />
           <BreweryList
-            breweries={this.props.breweries}
-            showModal={this.props.showModal} />
+            brewDetailFetch={this.props.brewDetailFetch}
+            breweries={this.props.breweries} />
         </div>
       </main>
     )
