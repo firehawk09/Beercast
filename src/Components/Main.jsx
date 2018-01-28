@@ -2,7 +2,7 @@ import React from 'react';
 import BreweryList from './BreweryList';
 
 const Main = (props) => {
-  if(props.breweries.length == 0) {
+  if(props.breweries.length === 0) {
     if (props.hasGeoError) {
       return(
         <div className="container">
